@@ -1,0 +1,457 @@
+ Program
+   Robot Program
+     wp_origin≔p[0,0,0,0,0,0]
+     wp_KeyOrigin≔p[0,0,0,0,0,0]
+     wp_CornerOrigin≔p[0,0,0,0,0,0]
+     Cam Locate
+       For object(s) found
+         target_pose≔object_location
+         Gripper Activate
+         Gripper Close (1)
+         'Popup'
+         target_pose[2]=target_pose[2]+0.15
+         MoveL
+           target_pose
+         wp_Center≔get_actual_tcp_pose()
+         'Popup'
+         Feature_1≔target_pose
+         Call FindCorner
+         'Call PressBlueButton'
+         'Call PlugExtraction'
+         'Call PlugInsertion'
+         'Call KeyExtraction'
+         'Call KeyInsertion'
+         'Call AABatteryCoverExtraction'
+         'Call ExtractBattery1'
+         'Call PickBattery1'
+         'Call InsertBattery1'
+         'Call PickTool'
+         'Call ExtractBattery2'
+         'Call PlaceTool'
+         'Call PickBattery2'
+         'Call InsertBattery2'
+         'Call ExtractCoinBattery'
+         'Call ReleaseTool'
+         Call PickPlaceCoinBattery
+         'Call PressRedButton'
+         Halt
+       If no object found
+         'Optional'
+     'Halt'
+   ExtractCoinBattery
+     wp_CoinBatApp≔wp_origin
+     wp_CoinBatApp[0] = -0.0328
+     wp_CoinBatApp[1] = 0.1238 + 0.002
+     wp_CoinBatApp[2] = 0.07
+     MoveL
+       wp_CoinBatApp
+     wp_CoinBatExt≔wp_CoinBatApp
+     wp_CoinBatExt[2] = 0.115
+     MoveL
+       wp_CoinBatExt
+     Find Surface
+       'Add Stop conditions from the Find Surface node'
+     Wait: 0
+     wp_CoinBatExt[2] = 0.07
+     MoveL
+       wp_CoinBatExt
+     'wp_CoinBatExt[1] = wp_CoinBatExt[1] + 0.1238'
+     'wp_CoinBatExt[3] = 0.785398'
+   PickPlaceCoinBattery
+     Gripper Move50% (1)
+     wp_PickCoinApp≔wp_origin
+     wp_PickCoinApp[0] = -0.0328
+     wp_PickCoinApp[1] = 0.1238
+     wp_PickCoinApp[2] = 0.14
+     wp_PickCoinApp[5] = d2r(90)
+     MoveL
+       wp_PickCoinApp
+     Gripper Close (1)
+     wp_PickCoinApp[2] = 0.12
+     MoveL
+       wp_PickCoinApp
+     wp_PickCoinApp[1] = 0.09
+     MoveL
+       wp_PickCoinApp
+     wp_PickCoinApp[2] = 0.13
+     MoveL
+       wp_PickCoinApp
+     Gripper Move65% (1)
+     wp_PickCoinApp[2] = 0
+     MoveL
+       wp_PickCoinApp
+     Gripper Close (1)
+   ExtractBattery2
+     wp_Bat2ExtApp≔wp_origin
+     wp_Bat2ExtApp[0] = -0.10
+     wp_Bat2ExtApp[1] = 0.06
+     wp_Bat2ExtApp[2] = 0.07
+     MoveL
+       wp_Bat2ExtApp
+     wp_Bat2ExtApp[2] = 0.115
+     MoveL
+       wp_Bat2ExtApp
+     Find Surface
+       'Add Stop conditions from the Find Surface node'
+     wp_Bat2ExtApp[2] = 0.07
+     MoveL
+       wp_Bat2ExtApp
+   PickTool
+     wp_PickToolApp≔wp_CornerOrigin
+     wp_PickToolApp[0] = -0.081
+     wp_PickToolApp[1] = 0.083
+     MoveL
+       wp_PickToolApp
+     Gripper Move60% (1)
+     wp_PickToolApp[2] = 0.148
+     MoveL
+       wp_PickToolApp
+     wp_PickToolApp[1] = 0.08
+     MoveL
+       wp_PickToolApp
+     Gripper Close (1)
+     wp_PickToolApp[2] = 0.07
+     MoveL
+       wp_PickToolApp
+   PlaceTool
+     wp_PlaceToolApp≔wp_origin
+     wp_PlaceToolApp[0] = -0.081
+     wp_PlaceToolApp[1] = 0.08
+     MoveL
+       wp_PlaceToolApp
+     wp_PlaceToolApp[2] = 0.13
+     MoveL
+       wp_PlaceToolApp
+     Insertion
+       Zero FT Sensor
+       Linear
+         On error
+           'Sequence if maximum distance is reached'
+           Halt
+     Gripper Move60% (1)
+     wp_PlaceToolApp[2] = 0.07
+     MoveL
+       wp_PlaceToolApp
+     wp_PlaceToolApp[5] = 1.571
+     MoveL
+       wp_PlaceToolApp
+   ReleaseTool
+     wp_RelToolApp≔wp_origin
+     wp_RelToolApp[0] = -0.0328
+     wp_RelToolApp[1] = 0.18
+     wp_RelToolApp[2] = 0.07
+     MoveL
+       wp_RelToolApp
+     Gripper Move50% (1)
+     wp_RelToolApp[2] = 0
+     MoveL
+       wp_RelToolApp
+     Gripper Close (1)
+   InsertBattery1
+     wp_InsBat1App≔wp_origin
+     wp_InsBat1App[0] = wp_InsBat1App[0] - 0.042
+     wp_InsBat1App[1] = wp_InsBat1App[1] + 0.0555
+     MoveL
+       wp_InsBat1App
+     'wp_InsBat1Ins≔wp_InsBat1App'
+     wp_InsBat1App[2] = wp_InsBat1App[2] + 0.08
+     wp_InsBat1App[0] = wp_InsBat1App[0] + 0.005
+     MoveL
+       wp_InsBat1App
+     Insertion
+       Zero FT Sensor
+       Linear
+         On error
+           'Sequence if maximum distance is reached'
+           Halt
+     Wait: 0.5
+     Gripper Move60% (1)
+     wp_InsBat1Ret≔wp_InsBat1App
+     wp_InsBat1Ret[2] = wp_InsBat1Ret[2] - 0.10
+     MoveL
+       wp_InsBat1Ret
+     Gripper Close (1)
+     'Insertion'
+   InsertBattery2
+     wp_InsBat2App≔wp_origin
+     wp_InsBat2App[0] = -0.058
+     wp_InsBat2App[1] = 0.0555
+     wp_InsBat2App[5] = 1.571
+     MoveL
+       wp_InsBat2App
+     wp_InsBat2App[2] = 0.08
+     wp_InsBat2App[0] = wp_InsBat2App[0] - 0.005
+     MoveL
+       wp_InsBat2App
+     Insertion
+       Zero FT Sensor
+       Linear
+         On error
+           'Sequence if maximum distance is reached'
+           Halt
+     Wait: 0.5
+     Gripper Move60% (1)
+     wp_InsBat2Ret≔wp_InsBat2App
+     wp_InsBat2Ret[2] = wp_InsBat2Ret[2] - 0.10
+     MoveL
+       wp_InsBat2Ret
+     Gripper Close (1)
+   PickBattery2
+     Gripper Move60% (1)
+     wp_Bat2PickApp≔wp_origin
+     wp_Bat2PickApp[0] = -0.1045
+     wp_Bat2PickApp[1] = 0.0565
+     wp_Bat2PickApp[5] = 1.571
+     MoveL
+       wp_Bat2PickApp
+     wp_Bat2PickApp[2] = 0.134
+     MoveL
+       wp_Bat2PickApp
+     Gripper Close (1)
+     wp_Bat2PickApp[2] = 0.07
+     MoveL
+       wp_Bat2PickApp
+     Gripper Move72% (1)
+     Wait: 3.0
+     Gripper Move85% (1)
+   PickBattery1
+     Gripper Move60% (1)
+     wp_Bat1ExtApp≔wp_origin
+     wp_Bat1ExtApp[0] = wp_Bat1ExtApp[0] - 0.1540
+     wp_Bat1ExtApp[1] = wp_Bat1ExtApp[1] + 0.0415
+     wp_Bat1ExtApp[5] = wp_Bat1ExtApp[5] + 1.571
+     MoveL
+       wp_Bat1ExtApp
+     wp_Bat1ExtApp[2] = wp_Bat1ExtApp[2] + 0.136
+     MoveL
+       wp_Bat1ExtApp
+     Gripper Close (1)
+     wp_Bat1ExtApp[2] = wp_Bat1ExtApp[2] - 0.10
+     MoveL
+       wp_Bat1ExtApp
+     Gripper Move72% (1)
+     Wait: 3.0
+     Gripper Move85% (1)
+   ExtractBattery1
+     wp_Bat1ExtApp≔wp_origin
+     wp_Bat1ExtApp[0] = wp_Bat1ExtApp[0] - 0.1540
+     wp_Bat1ExtApp[1] = wp_Bat1ExtApp[1] + 0.0415
+     MoveL
+       wp_Bat1ExtApp
+     Gripper Move30% (1)
+     wp_Bat1Extract≔wp_Bat1ExtApp
+     wp_Bat1Extract[0] = wp_Bat1Extract[0] + 0.034
+     wp_Bat1Extract[1] = wp_Bat1Extract[1] - 0.01
+     wp_Bat1Extract[2] = wp_Bat1Extract[2] + 0.145
+     MoveL
+       wp_Bat1Extract
+     Find Surface
+       'Add Stop conditions from the Find Surface node'
+     wp_Bat1Extract[2] = wp_Bat1Extract[2] - 0.05
+     MoveL
+       wp_Bat1Extract
+     Gripper Move60% (1)
+   AABatteryCoverExtraction
+     wp_AABatCovApp≔wp_origin
+     wp_AABatCovApp[0] = wp_AABatCovApp[0] - 0.1125
+     wp_AABatCovApp[1] = wp_AABatCovApp[1] + 0.0485
+     MoveL
+       wp_AABatCovApp
+     wp_AABatCovPres≔wp_AABatCovApp
+     wp_AABatCovPres[3] = wp_AABatCovPres[3] + 0.7854
+     wp_AABatCovPres[2] = wp_AABatCovPres[2] + 0.12
+     wp_AABatCovPres[1] = wp_AABatCovPres[1] - 0.008
+     wp_AABatCovPres[0] = wp_AABatCovPres[0] + 0.005
+     MoveL
+       wp_AABatCovPres
+     Find Surface
+       'Add Stop conditions from the Find Surface node'
+     wp_AABatCovRem≔wp_AABatCovPres
+     wp_AABatCovRem[2] = wp_AABatCovRem[2] + 0.009
+     wp_AABatCovRem[0] = wp_AABatCovRem[0] - 0.07
+     MoveL
+       wp_AABatCovRem
+     'wp_AABatCovRet≔wp_AABatCovRem'
+     'wp_AABatCovRet[2] = wp_AABatCovRet[2] - 0.058'
+     'MoveL'
+     'wp_AABatCovRet[0] = wp_AABatCovRet[0] + 0.07'
+     'MoveL'
+     'wp_AABatCovRet[2] = wp_AABatCovRet[2] + 0.123'
+     'MoveL'
+     'wp_AABatCovRet[0] = wp_AABatCovRet[0] - 0.07'
+     'MoveL'
+     'wp_AABatCovRet[2] = wp_AABatCovRet[2] - 0.12'
+     'MoveL'
+   PlugInsertion
+     wp_PlgInsApp≔wp_origin
+     wp_PlgInsApp[0] =wp_PlgInsApp[0] - 0.1390
+     wp_PlgInsApp[1] =wp_PlgInsApp[1] + 0.1065
+     wp_PlgInsApp[2] =wp_PlgInsApp[2] + 0.1085
+     wp_PlgInsApp[5] = 1.571
+     MoveL
+       wp_PlgInsApp
+     wp_PlgInsertion≔wp_PlgInsApp
+     wp_PlgInsertion[2] = wp_PlgInsertion[2] + 0.025
+     MoveL
+       wp_PlgInsertion
+     Insertion
+       Zero FT Sensor
+       Linear
+         On error
+           'Sequence if maximum distance is reached'
+           Halt
+     Gripper Move60% (1)
+     wp_PlgInsRet≔wp_PlgInsertion
+     wp_PlgInsRet[2] = wp_PlgInsRet[2] - 0.1485
+     MoveL
+       wp_PlgInsRet
+     Gripper Close (1)
+     wp_PlgInsRet[5] = 0
+     MoveL
+       wp_PlgInsRet
+   PlugExtraction
+     wp_PlgExtApp≔wp_origin
+     wp_PlgExtApp[0] = wp_PlgExtApp[0] - 0.0990
+     wp_PlgExtApp[1] = wp_PlgExtApp[1] + 0.1075
+     wp_PlgExtApp[5] = 1.571
+     MoveL
+       wp_PlgExtApp
+     Gripper Move60% (1)
+     wp_PlgExtract≔wp_PlgExtApp
+     wp_PlgExtract[2] = wp_PlgExtract[2] + 0.1385
+     MoveL
+       wp_PlgExtract
+     Gripper Close (1)
+     wp_PlgExtRet≔wp_PlgExtract
+     wp_PlgExtRet[2] = wp_PlgExtRet[2] - 0.03
+     MoveL
+       wp_PlgExtRet
+   KeyInsertion
+     wp_KeyInsApp≔wp_origin
+     wp_KeyInsApp[0] = -0.1835 + 0.001
+     wp_KeyInsApp[1] = 0.1105 - 0.003
+     wp_KeyInsApp[5] = 0
+     MoveL
+       wp_KeyInsApp
+     wp_KeyInsert≔wp_KeyInsApp
+     wp_KeyInsert[2] = 0.111
+     MoveL
+       wp_KeyInsert
+     Insertion
+       Zero FT Sensor
+       Linear
+         On error
+           'Sequence if maximum distance is reached'
+           Halt
+     KeyFeature = get_actual_tcp_pose()
+     wp_KeyOrigin[5] = d2r(60)
+     MoveL
+       wp_KeyOrigin
+     wp_KeyOrigin[5] = 0
+     MoveL
+       wp_KeyOrigin
+     Gripper Move60% (1)
+     wp_KeyInsRet≔wp_KeyInsert
+     wp_KeyInsRet[2] = wp_KeyInsRet[2] - 0.111
+     MoveL
+       wp_KeyInsRet
+     Gripper Close (1)
+   KeyExtraction
+     wp_KeyExtApp≔wp_origin
+     wp_KeyExtApp[0] = wp_KeyExtApp[0] - 0.1820
+     wp_KeyExtApp[1] = wp_KeyExtApp[1] + 0.0450
+     wp_KeyExtApp[5] = wp_KeyExtApp[5] - 1.571
+     MoveL
+       wp_KeyExtApp
+     Gripper Move60% (1)
+     wp_KeyExtact≔wp_KeyExtApp
+     wp_KeyExtact[2] = wp_KeyExtact[2] + 0.145
+     MoveL
+       wp_KeyExtact
+     Gripper Close (1)
+     wp_KeyExtRet≔wp_KeyExtact
+     wp_KeyExtRet[2] = wp_KeyExtRet[2] - 0.145
+     MoveL
+       wp_KeyExtRet
+     wp_KeyExtRet[5] = 0
+     MoveL
+       wp_KeyExtRet
+   PressRedButton
+     wp_RedButApp≔wp_origin
+     wp_RedButApp[0] = wp_RedButApp[0] - 0.0555
+     wp_RedButApp[1] = wp_RedButApp[1] + 0.03
+     MoveL
+       wp_RedButApp
+     Popup
+     wp_RedButPress≔wp_RedButApp
+     wp_RedButPress[2] = wp_RedButPress[2] + 0.125
+     MoveL
+       wp_RedButPress
+     Find Surface
+       'Add Stop conditions from the Find Surface node'
+       If surface found
+         'Sequence if force threshold is reached'
+     wp_RedButRet≔wp_RedButApp
+     MoveL
+       wp_RedButRet
+   PressBlueButton
+     wp_BluButApp≔wp_origin
+     wp_BluButApp[0] = wp_BluButApp[0] - 0.0415
+     wp_BluButApp[1] = wp_BluButApp[1] + 0.032
+     MoveL
+       wp_BluButApp
+     wp_BluButPress≔wp_BluButApp
+     wp_BluButPress[2] = wp_BluButPress[2] + 0.145
+     MoveL
+       wp_BluButPress
+     Find Surface
+       'Add Stop conditions from the Find Surface node'
+     wp_BluButRet≔wp_BluButApp
+     MoveL
+       wp_BluButRet
+   FindCorner
+     wp_CornerX≔wp_origin
+     wp_CornerX[0] = 0.15
+     wp_CornerX[5] = 1.571
+     MoveL
+       wp_CornerX
+     wp_CornerX[2] = 0.18
+     MoveL
+       wp_CornerX
+     Find Surface
+       'Add Stop conditions from the Find Surface node'
+       If surface found
+         'Sequence if force threshold is reached'
+         Found_X_Base≔get_actual_tcp_pose()
+         Script: x_dist.script
+         'Popup'
+     wp_CornerX[0] = wp_CornerX[0] + 0.02
+     MoveL
+       wp_CornerX
+     wp_CornerY≔wp_CornerX
+     wp_CornerY[1] =-0.10
+     MoveL
+       wp_CornerY
+     wp_CornerY[5] = 0
+     MoveL
+       wp_CornerY
+     wp_CornerY[0] = 0.05
+     MoveL
+       wp_CornerY
+     Find Surface
+       'Add Stop conditions from the Find Surface node'
+       If surface found
+         'Sequence if force threshold is reached'
+         Found_Y_Base≔get_actual_tcp_pose()
+         Script: y_dist.script
+         'Popup'
+     wp_CornerY[1] =wp_CornerY[1] - 0.02
+     MoveL
+       wp_CornerY
+     wp_CornerY[2] = 0
+     MoveL
+       wp_CornerY
+     Script: without_TCP_offset_dist.script
+     MoveL
+       wp_CornerOrigin
+     Fearure_2_2P_Of≔get_actual_tcp_pose()

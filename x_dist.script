@@ -1,0 +1,1 @@
+wp_CornerOrigin[0] = sqrt(pow((wp_Center[0] - Found_X_Base[0]), 2) + pow((wp_Center[1] - Found_X_Base[1]), 2))

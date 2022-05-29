@@ -1,0 +1,4 @@
+wp_CornerOrigin[0] = wp_CornerOrigin[0] - 0.01
+wp_CornerOrigin[1] = wp_CornerOrigin[1] - 0.01 - 0.0122722
+wp_CornerOrigin[1] = -(wp_CornerOrigin[1])
+wp_CornerOrigin[2] = 0
